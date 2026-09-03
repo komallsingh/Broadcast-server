@@ -9,26 +9,31 @@ server.listen(env.PORT,()=>{
     console.log(`Server is running on port ${env.PORT}`);
 });
 
+let isShuttingDown = false;
 function shutdown(signal) {
 
-    console.log(
-        `${signal} received. Shutting down gracefully...`
-    );
+    if (isShuttingDown) {
+        return;
+    }
 
-    // Stop accepting new HTTP connections
-    server.close(() => {
+    isShuttingDown = true;
 
-        console.log("HTTP server closed");
+    console.log(`${signal} received. Shutting down gracefully...`);
 
-        // Close all WebSocket clients
-        for (const client of wss.clients) {
-            client.close();
-        }
+    // Close WebSocket clients first
+    for (const client of wss.clients) {
+        client.close();
+    }
 
-        // Close WebSocket server
-        wss.close(() => {
+    // Close WebSocket server
+    wss.close(() => {
 
-            console.log("WebSocket server closed");
+        console.log("WebSocket server closed");
+
+        // Now close HTTP server
+        server.close(() => {
+
+            console.log("HTTP server closed");
 
             process.exit(0);
         });

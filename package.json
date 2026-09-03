@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A CLI-based WebSocket broadcast server",
   "main": "src/server.js",
+  "bin": {
+  "broadcast-server": "./cli/index.js"
+},
   "scripts": {
     "start": "node src/server.js",
     "test": "jest"
