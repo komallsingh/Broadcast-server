@@ -1,6 +1,7 @@
 const WebSocket = require("ws");
 const ConnectionManager=require("./connection-manager");
 const BroadcastService=require("../service/broadcast.service");
+const handleWebSocketError = require("./websocket-error-handler");
 
 function createWebSocketServer(server){
     const wss= new WebSocket.Server({
@@ -24,7 +25,7 @@ const broadcastService=new BroadcastService(connectionManager);
                 broadcastService.broadcast(message.toString());
             }
             catch(error){
-                console.error("Error broadcasting message: ",error.message);
+                handleWebSocketError(socket,error);
             }
         });
 

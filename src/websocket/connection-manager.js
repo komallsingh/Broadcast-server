@@ -11,10 +11,9 @@ class ConnectionManager{
         this.connections.delete(socket);
     }
 
-    get(socket){
-        this.connections.get(socket);
-    }
-    
+    has(socket) {
+    return this.connections.has(socket);
+}
     getAll(){
         return this.connections;
     }
