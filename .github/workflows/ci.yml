@@ -27,7 +27,15 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm test
+        run: npm test -- --json --outputFile=test-results/results.json
+      
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+           name: jest-test-results
+           path: test-results/results.json
+           if-no-files-found: warn
   
   lint:
     runs-on: ubuntu-latest
@@ -47,3 +55,13 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint
+  
+  deploy:
+    needs: [test, lint]
+    if: github.event_name=='push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy Application
+        run: echo "Deploying"
+

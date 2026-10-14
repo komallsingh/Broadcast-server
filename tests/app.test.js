@@ -34,5 +34,5 @@ describe("Application", () => {
                 message: "Test error"
             });
     });
-
+    
 });
