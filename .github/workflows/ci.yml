@@ -25,6 +25,8 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+      - name: Create test results directory
+        run: mkdir -p test-results
 
       - name: Run tests
         run: npm test -- --json --outputFile=test-results/results.json
