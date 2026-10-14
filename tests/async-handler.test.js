@@ -5,7 +5,7 @@ describe("Async Handler", () => {
     test("should execute the handler", async () => {
 
         const handler = jest.fn(
-            async (req, res, next) => {
+            async () => {
                 return "success";
             }
         );

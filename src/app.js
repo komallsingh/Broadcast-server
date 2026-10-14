@@ -14,7 +14,7 @@ app.get("/health",(req,res)=>{
 
 app.get(
     "/test-error",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async () => {
         throw new AppError(
             "Test error",
             400
