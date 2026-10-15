@@ -57,16 +57,6 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint
-  
-  deploy:
-    needs: [test, lint]
-    if: github.event_name=='push'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Deploy Application
-        run: echo "Deploying"
-
   docker-build:
     runs-on: ubuntu-latest
 
@@ -76,3 +66,12 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t broadcast-server .
+
+  deploy:
+    needs: [test, lint, docker-build]
+    if: github.event_name=='push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy Application
+        run: echo "Deploying"
